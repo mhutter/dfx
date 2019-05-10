@@ -6,41 +6,37 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/dghubble/go-twitter/twitter"
-	"github.com/dghubble/oauth1"
-	"github.com/mhutter/dfx"
+	"github.com/mhutter/dfx/streamer"
 )
 
 func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
-	config := oauth1.NewConfig(mustEnv("CONSUMER_KEY"), mustEnv("CONSUMER_SECRET"))
-	token := oauth1.NewToken(mustEnv("ACCESS_TOKEN"), mustEnv("ACCESS_TOKEN_SECRET"))
+	var (
+		consumerKey       = mustEnv("CONSUMER_KEY")
+		consumerSecret    = mustEnv("CONSUMER_SECRET")
+		accessToken       = mustEnv("ACCESS_TOKEN")
+		accessTokenSecret = mustEnv("ACCESS_TOKEN_SECRET")
+		filter            = mustEnv("FILTER")
+	)
 
-	httpClient := config.Client(oauth1.NoContext, token)
-	client := twitter.NewClient(httpClient)
+	tw := streamer.NewTwitter(consumerKey, consumerSecret, accessToken, accessTokenSecret, filter)
 
-	demux := twitter.NewSwitchDemux()
-	demux.Tweet = func(tweet *twitter.Tweet) {
-		d := dfx.NewFromTweet(tweet)
-		log.Printf("New Deployable --> %s: %s (from %s)\n",
-			d.From, d.Content, d.SourceURL)
-	}
-
-	stream, err := client.Streams.Filter(&twitter.StreamFilterParams{
-		Track:         []string{mustEnv("FILTER")},
-		StallWarnings: twitter.Bool(true),
-	})
+	ch, err := tw.Start()
 	if err != nil {
-		log.Fatalf("streaming tweets failed: %+v", err)
+		log.Fatalln("Error starting Twitter streamer:", err)
 	}
+	log.Println("Streaming messages from twitter")
 
-	go demux.HandleChan(stream.Messages)
-	log.Println("Streaming messages...")
+	go func() {
+		for d := range ch {
+			log.Printf("%#v", d)
+		}
+	}()
 
 	interrupt := make(chan os.Signal)
 	signal.Notify(interrupt, syscall.SIGINT, syscall.SIGTERM)
 	log.Println(<-interrupt)
-	stream.Stop()
+	tw.Stop()
 }
 
 func mustEnv(name string) string {
