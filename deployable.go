@@ -1,6 +1,10 @@
 package dfx
 
-import "github.com/dghubble/go-twitter/twitter"
+import (
+	"fmt"
+
+	"github.com/dghubble/go-twitter/twitter"
+)
 
 const (
 	srcTwitter = "twitter"
@@ -8,10 +12,15 @@ const (
 
 // NewFromTweet creates a new Deployable from the given Tweet
 func NewFromTweet(tweet *twitter.Tweet) *Deployable {
+	surl := fmt.Sprintf(
+		"https://twitter.com/%s/status/%s",
+		tweet.User.ScreenName,
+		tweet.IDStr,
+	)
 	return &Deployable{
 		Content:   tweet.Text,
 		From:      tweet.User.ScreenName,
-		SourceUrl: tweet.Source,
+		SourceUrl: surl,
 		Source:    srcTwitter,
 	}
 }
