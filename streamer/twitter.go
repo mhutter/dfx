@@ -15,6 +15,9 @@ type Twitter struct {
 	stream *twitter.Stream
 }
 
+// QueueClient is a client that can send out events
+type QueueClient interface{}
+
 // NewTwitter wires up the client and returns a new Twitter instance
 func NewTwitter(
 	consumerKey,
