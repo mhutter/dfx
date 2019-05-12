@@ -7,6 +7,8 @@ github.com/cenkalti/backoff v2.1.1+incompatible/go.mod h1:90ReRw6GdpyfrHakVjL/QH
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
 github.com/dghubble/go-twitter v0.0.0-20190305084156-0022a70e9bee h1:JHhBwyGPghkevFUMUsy5YGynUKUB9I7qrD5ppS/B9qM=
 github.com/dghubble/go-twitter v0.0.0-20190305084156-0022a70e9bee/go.mod h1:6beqTZaXeBPti9pDBcBEqxfJc7uCbSafqZPRDPQOKoM=
+github.com/dghubble/go-twitter v0.0.0-20190512074228-53f972dc4b06 h1:n9R8PhP2lQ3mgptE76EoHYwbcKQsR0VQluCmgB25G/o=
+github.com/dghubble/go-twitter v0.0.0-20190512074228-53f972dc4b06/go.mod h1:6beqTZaXeBPti9pDBcBEqxfJc7uCbSafqZPRDPQOKoM=
 github.com/dghubble/oauth1 v0.5.0 h1:uJqX7Rzr3QRmp2slUWqI9Sm8NoP65AMiyXiijOWWLvQ=
 github.com/dghubble/oauth1 v0.5.0/go.mod h1:8V8BMV9DJRREZx/lUaHtrs7GUMXpzbMqJxINCasxYug=
 github.com/dghubble/sling v1.2.0 h1:PYGS9ofwbV9nfhB1kYjB1vtXshMxlp2oQxTMMXVJ5pE=
