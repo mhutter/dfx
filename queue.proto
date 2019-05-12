@@ -6,10 +6,11 @@ service Queue {
 }
 
 message Deployable {
-  string content = 1;
-  string from = 2;
-  string source_url = 3;
-  string source = 4;
+  string title = 1;
+  string content = 2;
+  string from = 3;
+  string source_url = 4;
+  string source = 5;
 }
 
 message Void {}
